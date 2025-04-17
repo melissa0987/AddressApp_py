@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %} Specific Address {% endblock %}
+{% block content %}
+    <table>
+        <tr>
+            <td> Name: </td>
+            <td> {{address.name}} </td>
+        </tr>
+        <tr>
+            <td> Street: </td>
+            <td> {{address.street}} </td>
+        </tr>
+        <tr>
+            <td> City: </td>
+            <td> {{address.city}} </td>
+        </tr>
+        <tr>
+            <td> Province: </td>
+            <td> {{address.province}} </td>
+        </tr>
+    </table>
+{% endblock %}

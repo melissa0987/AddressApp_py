@@ -1,0 +1,24 @@
+
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+{% block header %} Assignment 7 {% endblock %}
+
+{% block script %} 
+    <script defer type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}
+
+
+{% block content %}
+    <h2>Addresses</h2>
+    <br/>
+
+    <div id="addressList"></div>
+    <br/>
+    <button id="addButton">Add new address</button>
+	<br/>
+	<input type="text" id="searchInput">
+	<button id="searchButton" >Search</button>
+	<div id="searchResult">
+        <div id="result">  </div>
+    </div>
+{% endblock %}

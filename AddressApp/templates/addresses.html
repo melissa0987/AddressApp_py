@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %} Address {% endblock %}
+
+{% block content %}
+    <ul id="addresses">
+        {% for address in addresses %}
+            <li>
+                <a href="{{url_for('addresses.get_address', name=address.name)}}">
+                    {{address | safe}}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+
+    <!-- FORM to add new address -->
+    <form method="post">
+        {{ form.csrf_token }}
+        <fieldset>
+            <legend>Add a new adress: </legend>
+
+            <div class="form_wrapper">
+                <label for="name">Name:</label>
+                {{ form.name() }}
+            </div>
+            <div class="form_wrapper">
+                <label for="street">Street:</label>
+                {{ form.street() }}
+            </div>
+            <div class="form_wrapper">
+                <label for="city">City:</label>
+                {{ form.city() }}
+            </div>
+            <div class="form_wrapper">
+                <label for="province">Province:</label>
+                {{ form.province() }}
+            </div>
+            <div class="form_wrapper">
+                <button type="submit" > Submit </button>
+            </div>
+        </fieldset>
+    
+        
+        
+    </form>
+    
+{% endblock %}

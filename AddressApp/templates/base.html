@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>  {% block title %} {% endblock %} </title>
+
+        <link rel="stylesheet"  href="{{ url_for('static', filename='styles.css') }}"/>
+        {% block script %}
+        <!-- js script -->
+        {% endblock %}
+    </head>
+    <body>
+
+        <div id="flash_error">
+            {% for message in get_flashed_messages() %}
+            <div>{{message}}</div>
+            {% endfor %}
+
+        </div>
+        <h1>
+            {% block header %} {% endblock %}
+        </h1>
+        <nav>
+            <ul>
+                <li> <a href="{{url_for('home.index')}}">Home</a> </li>
+                <li> <a href="{{url_for('addresses.list_addresses')}}">Addresses</a> </li>
+            </ul>
+        </nav>
+        <div id="block_content">
+
+
+
+            
+            {% block content %}
+
+            {% endblock %}
+        </div>
+        
+
+
+    </body>
+
+</html>
