@@ -1,0 +1,11 @@
+py -m venv .venv
+.venv/scripts/activate
+	.venv/bin/activate (linux)
+pip install flask
+pip freeze > requirements.txt
+	pip install -r requirements.txt
+
+flask --debug run 
+python.exe -m install --upgrade pip
+
+flask run --host=0.0.0.0
