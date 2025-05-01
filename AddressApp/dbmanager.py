@@ -22,4 +22,4 @@ def init_db():
 @click.command('init-db')
 def init_db_command():
     init_db()
-    click.echo('Initializing the database...')
+    click.echo('Initialized the PostgreSQL database.')

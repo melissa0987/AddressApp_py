@@ -2,6 +2,8 @@ import psycopg2
 from psycopg2 import sql
 from .address import Address
 import os
+from dotenv import load_dotenv
+load_dotenv()
 class Database:
     def __init__(self, autocommit=True):
         self.__connection = self.__connect()
@@ -27,11 +29,12 @@ class Database:
     def add_address(self, address):
         with self.__connection.cursor() as cursor:
             try:
-                cursor.execute( 'INSERT INTO FLASK_ADDRESSES VALUES (:name, :street, :city, :province)',  
-                    name = address.name, 
-                    street = address.street, 
-                    city = address.city, 
-                    province = address.province)
+                cursor.execute(
+                'INSERT INTO FLASK_ADDRESSES (name, street, city, province) VALUES (%s, %s, %s, %s)',
+                (address.name, 
+                 address.street, 
+                 address.city, 
+                 address.province))
                     
             except psycopg2.Error as e:
                 print(e)
@@ -64,7 +67,8 @@ class Database:
         with self.__connection.cursor() as cursor: 
             try:
                 result = cursor.execute('SELECT name, street, city, province FROM FLASK_ADDRESSES')
-                for row in result:
+                rows = cursor.fetchall()  # fetch all the results
+                for row in rows:
                     address = Address( name = row[0], 
                                       street = row[1], 
                                       city = row[2], 
@@ -100,11 +104,11 @@ class Database:
 
     def __connect(self):
         return psycopg2.connect(
-            dbname=os.environ['DBNAME'],
-            user=os.environ['DBUSER'],
-            password=os.environ['DBPWD'],
-            host=os.environ.get('DBHOST', 'localhost'),
-            port=os.environ.get('DBPORT', 5432)
+            dbname='AddressApp_demo',
+            user='postgres',
+            password='melissa0123',
+            host='localhost',
+            port=5432
         )
 
 
