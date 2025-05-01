@@ -2,6 +2,8 @@ import psycopg2
 from psycopg2 import sql
 from .address import Address
 import os
+from dotenv import load_dotenv
+load_dotenv()
 class Database:
     def __init__(self, autocommit=True):
         self.__connection = self.__connect()
@@ -29,7 +31,10 @@ class Database:
             try:
                 cursor.execute(
                 'INSERT INTO FLASK_ADDRESSES (name, street, city, province) VALUES (%s, %s, %s, %s)',
-                (address.name, address.street, address.city, address.province)
+                (address.name, 
+                 address.street, 
+                 address.city, 
+                 address.province)
             )
                     
             except psycopg2.Error as e:
@@ -100,11 +105,11 @@ class Database:
 
     def __connect(self):
         return psycopg2.connect(
-            dbname=os.environ['DBNAME'],
-            user=os.environ['DBUSER'],
-            password=os.environ['DBPWD'],
-            host=os.environ.get('DBHOST', 'localhost'),
-            port=os.environ.get('DBPORT', 5432)
+            dbname='AddressApp_demo',
+            user='postgres',
+            password='melissa0123',
+            host='localhost',
+            port=5432
         )
 
 
