@@ -1,6 +1,9 @@
-import oracledb
+import psycopg2
+from psycopg2 import sql
 from .address import Address
 import os
+from dotenv import load_dotenv
+load_dotenv()
 class Database:
     def __init__(self, autocommit=True):
         self.__connection = self.__connect()
@@ -26,13 +29,15 @@ class Database:
     def add_address(self, address):
         with self.__connection.cursor() as cursor:
             try:
-                cursor.execute( 'INSERT INTO FLASK_ADDRESSES VALUES (:name, :street, :city, :province)',  
-                    name = address.name, 
-                    street = address.street, 
-                    city = address.city, 
-                    province = address.province)
+                cursor.execute(
+                'INSERT INTO FLASK_ADDRESSES (name, street, city, province) VALUES (%s, %s, %s, %s)',
+                (address.name, 
+                 address.street, 
+                 address.city, 
+                 address.province)
+            )
                     
-            except oracledb.Error as e:
+            except psycopg2.Error as e:
                 print(e)
                 return None #if no match with the name
 
@@ -49,7 +54,7 @@ class Database:
                                       city = row[2], 
                                       province = row[3])
                     
-            except oracledb.Error as e:
+            except psycopg2.Error as e:
                 print(e)
                 return None #if no match with the name
             
@@ -63,14 +68,15 @@ class Database:
         with self.__connection.cursor() as cursor: 
             try:
                 result = cursor.execute('SELECT name, street, city, province FROM FLASK_ADDRESSES')
-                for row in result:
+                rows = cursor.fetchall()
+                for row in rows:
                     address = Address( name = row[0], 
                                       street = row[1], 
                                       city = row[2], 
                                       province = row[3])
                     addresses.append(address)
             
-            except oracledb.Error as e:
+            except psycopg2.Error as e:
                 print(e)
                 return None #if no match with the name
             
@@ -93,15 +99,18 @@ class Database:
     def __reconnect(self):
         try:
             self.close()
-        except oracledb.Error as f:
+        except psycopg2.Errors as f:
             pass
         self.__connection = self.__connect()
 
     def __connect(self):
-        return oracledb.connect(user=os.environ['DBUSER'], 
-                                password=os.environ['DBPWD'],
-                                host="198.168.52.211", port=1521, 
-                                service_name="pdbora19c.dawsoncollege.qc.ca")
+        return psycopg2.connect(
+            dbname=os.environ['DBNAME'],
+            user=os.environ['DBUSER'],
+            password=os.environ['DBPWD'],
+            host=os.environ.get('DBHOST', 'localhost'),
+            port=os.environ.get('DBPORT', 5432)
+        )
 
 
 if __name__ == '__main__':
