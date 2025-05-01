@@ -105,11 +105,11 @@ class Database:
 
     def __connect(self):
         return psycopg2.connect(
-            dbname='AddressApp_demo',
-            user='postgres',
-            password='melissa0123',
-            host='localhost',
-            port=5432
+            dbname=os.environ['DBNAME'],
+            user=os.environ['DBUSER'],
+            password=os.environ['DBPWD'],
+            host=os.environ.get('DBHOST', 'localhost'),
+            port=os.environ.get('DBPORT', 5432)
         )
 
 
