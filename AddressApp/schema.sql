@@ -1,11 +1,12 @@
 
 -- TABLE CREATION
-DROP TABLE FLASK_ADDRESSES ;
-CREATE TABLE FLASK_ADDRESSES (
-    name VARCHAR2(150) PRIMARY KEY,
-    street VARCHAR2(150) NOT NULL,
-    city VARCHAR2(150) NOT NULL, 
-    province VARCHAR2(150) NOT NULL
+DROP TABLE IF EXISTS flask_addresses;
+
+CREATE TABLE flask_addresses (
+    name VARCHAR(150) PRIMARY KEY,
+    street VARCHAR(150) NOT NULL,
+    city VARCHAR(150) NOT NULL,
+    province VARCHAR(150) NOT NULL
 );
 
 
@@ -19,4 +20,5 @@ INSERT INTO FLASK_ADDRESSES VALUES ('Eff', '6th street', 'Sixth city', 'Alberta'
 
 COMMIT;
 
---select name, street, city, province from FLASK_ADDRESSES ;
+select name, street, city, province from FLASK_ADDRESSES ;
+-- SELECT version();
