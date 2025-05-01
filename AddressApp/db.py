@@ -1,7 +1,8 @@
 import psycopg2
-from psycopg2 import sql
+# from psycopg2 import sql
 from .address import Address
-import os 
+
+import os  
 class Database:
     def __init__(self, autocommit=True):
         self.__connection = self.__connect()
