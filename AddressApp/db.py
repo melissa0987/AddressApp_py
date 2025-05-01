@@ -1,9 +1,7 @@
 import psycopg2
 from psycopg2 import sql
 from .address import Address
-import os
-from dotenv import load_dotenv
-load_dotenv()
+import os 
 class Database:
     def __init__(self, autocommit=True):
         self.__connection = self.__connect()
@@ -67,18 +65,20 @@ class Database:
         addresses = []
         with self.__connection.cursor() as cursor: 
             try:
-                result = cursor.execute('SELECT name, street, city, province FROM FLASK_ADDRESSES')
-                rows = cursor.fetchall()
+                cursor.execute('SELECT name, street, city, province FROM FLASK_ADDRESSES')
+                rows = cursor.fetchall()  # Make sure to fetch results
                 for row in rows:
-                    address = Address( name = row[0], 
-                                      street = row[1], 
-                                      city = row[2], 
-                                      province = row[3])
+                    address = Address(
+                        name=row[0],
+                        street=row[1],
+                        city=row[2],
+                        province=row[3]
+                    )
                     addresses.append(address)
-            
             except psycopg2.Error as e:
                 print(e)
-                return None #if no match with the name
+                return []  # Return an empty list instead of None
+
             
         return addresses
 
