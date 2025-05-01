@@ -27,11 +27,10 @@ class Database:
     def add_address(self, address):
         with self.__connection.cursor() as cursor:
             try:
-                cursor.execute( 'INSERT INTO FLASK_ADDRESSES VALUES (:name, :street, :city, :province)',  
-                    name = address.name, 
-                    street = address.street, 
-                    city = address.city, 
-                    province = address.province)
+                cursor.execute(
+                'INSERT INTO FLASK_ADDRESSES (name, street, city, province) VALUES (%s, %s, %s, %s)',
+                (address.name, address.street, address.city, address.province)
+            )
                     
             except psycopg2.Error as e:
                 print(e)
@@ -64,7 +63,8 @@ class Database:
         with self.__connection.cursor() as cursor: 
             try:
                 result = cursor.execute('SELECT name, street, city, province FROM FLASK_ADDRESSES')
-                for row in result:
+                rows = cursor.fetchall()
+                for row in rows:
                     address = Address( name = row[0], 
                                       street = row[1], 
                                       city = row[2], 
