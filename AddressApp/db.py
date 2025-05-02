@@ -45,14 +45,18 @@ class Database:
         address = None
         with self.__connection.cursor() as cursor: 
             try:
-                result = cursor.execute('SELECT name, street, city, province FROM FLASK_ADDRESSES where name = :specific_name',
-                                              specific_name = name)
-                for row in result:
-                    address = Address( name = row[0], 
-                                      street = row[1], 
-                                      city = row[2], 
-                                      province = row[3])
-                    
+                cursor.execute(
+                    'SELECT name, street, city, province FROM FLASK_ADDRESSES WHERE name = %s',
+                    (name,)  # <-- comma makes it a single-element tuple
+                )
+                row = cursor.fetchone()
+                if row:
+                    address = Address(
+                        name=row[0],
+                        street=row[1],
+                        city=row[2],
+                        province=row[3]
+                    ) 
             except psycopg2.Error as e:
                 print(e)
                 return None #if no match with the name
