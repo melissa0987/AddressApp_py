@@ -1,6 +1,10 @@
 py -m venv .venv
-.venv/scripts/activate
-	.venv/bin/activate (linux)
+	*check python version
+.venv/scripts/activate (windows)
+or cd .venv/scripts/
+activate 
+
+	bash .venv/bin/activate (linux)
 pip install flask
 pip freeze > requirements.txt
 	pip install -r requirements.txt
@@ -9,3 +13,21 @@ flask --debug run
 python.exe -m install --upgrade pip
 
 flask run --host=0.0.0.0
+
+
+
+Linux:
+export DBUSER=postgres
+export DBPWD=*****(change to your password)
+export DBNAME=postgres
+export DBHOST=localhost
+export DBPORT=5432
+export FLASK_APP=AddressApp
+
+windows:
+set DBUSER=postgres
+set DBPWD=*****(change to your password)
+set DBNAME=postgres
+set DBHOST=localhost
+set DBPORT=5432
+set FLASK_APP=AddressApp
